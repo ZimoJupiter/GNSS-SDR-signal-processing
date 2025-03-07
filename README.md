@@ -7,7 +7,7 @@ To execute the computation program, run the `SDR_main.m` script.
 
 ### Configuration for Different Scenarios
 
-The script includes two configurations for different input data scenarios: **Open Sky** and **Urban**. These configurations are controlled by the following lines in the code:
+The script includes two configurations for different input data scenarios: **Open Sky** and **Urban**. The following lines in the codes control these configurations:
 
 - **Open Sky Configuration**:
   ```matlab
@@ -22,6 +22,11 @@ By commenting out one of them, the other one can be executed.
 ### Initial input parameters
 
 The initial input parameters, including file names and paths, can be modified in the `initParametersOpenSky.m` and 'initParametersUrban.m' scripts.
+
+### Post-Processing
+
+To generate visualizations in the  `Figures` folder, simply run the `PostProcessing.m` script in the root directory.
+
 
 
 
@@ -45,6 +50,20 @@ The acquisition was performed using a parallel code phase search algorithm, whic
 |32   |26.1496   |3,500         |20,787              |4,583,350           |
 
 ### Tracking
+
+In the source code, the in-phase component and quadrature component of the early correlator prompt correlator and late correlator are expressed by $E_i$, $E_q$, $P_i$, $P_q$, $L_i$, $L_q$, respectively. Then, the three correlators are calculated as:
+
+$$E = \sqrt{E_i^2 + E_q^2}$$
+
+$$P = \sqrt{P_i^2 + P_q^2}$$
+
+$$L = \sqrt{L_i^2 + L_q^2}$$
+
+They correspond to time delays of -0.5, 0, and 0.5 chips, respectively. The correlation plots of the two cases at four time points are shown below.
+
+![image](https://github.com/ZimoJupiter/AAE6102-Assignment-1/blob/main/Figures/correlation_analysis_plotOpensky.png)
+
+![image](https://github.com/ZimoJupiter/AAE6102-Assignment-1/blob/main/Figures/correlation_analysis_plotUrban.png)
 
 ### Navigation Data Decoding
 
