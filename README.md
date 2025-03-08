@@ -92,7 +92,24 @@ Navigation data decoding aims to obtain pseudorange, GPS time, ephemeris, almana
 
 
 
-### Position and Velocity Estimation
+### Position and Velocity Estimation (WLS)
+
+![image](https://github.com/ZimoJupiter/AAE6102-Assignment-1/blob/main/Figures/Open%20sky%20latitude.png)
+
+![image](https://github.com/ZimoJupiter/AAE6102-Assignment-1/blob/main/Figures/Opensky%20longitude.png)
+
+![image](https://github.com/ZimoJupiter/AAE6102-Assignment-1/blob/main/Figures/Opensky%20velocity.png)
+
+
+![image](https://github.com/ZimoJupiter/AAE6102-Assignment-1/blob/main/Figures/Urban%20latitude.png)
+
+![image](https://github.com/ZimoJupiter/AAE6102-Assignment-1/blob/main/Figures/Urban%20longitude.png)
+
+![image](https://github.com/ZimoJupiter/AAE6102-Assignment-1/blob/main/Figures/Urban%20velocity.png)
+
+
+![image](https://github.com/ZimoJupiter/AAE6102-Assignment-1/blob/main/Figures/Map.png)
+
 
 
 ### Kalman Filter-Based Positioning
