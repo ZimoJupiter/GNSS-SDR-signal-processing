@@ -24,6 +24,7 @@ function [TckResultCT_pos, navSolutionsCT] = trackingCT_POS(file,signal,track,cm
 %
 % Written by B. XU and L. T. HSU
 
+
 %%
 sv_clk              = zeros(1,32);
 clkBias_kf         	=  0;
@@ -31,7 +32,7 @@ usr_clk_wls         = 0;
 clkDrift            = 0;
 oldclkDrift         = 0;
 estusr              = zeros(1,3);
-estusr_wls          = cnslxyz; % zeros(1,3);
+estusr_wls          =cnslxyz;% zeros(1,3);
 estusr_kf           = cnslxyz;%
 estVel              = zeros(1,3);
 oldestVel          	= estVel;
@@ -247,7 +248,7 @@ for msIndex = 1: datalength/pdi % Note that for pdi > 1ms, the index is still de
             - DLLdiscriLast(svindex)) + codeError(svindex)* ((pdi*t)/tau1code);
         DLLdiscriLast(svindex) = codeError(svindex);
         code_outputLast(svindex) = codeNco(svindex);
-                 %codeFreq(svindex) = signal.codeFreqBasis - codeNco(svindex);
+        %         codeFreq(svindex) = signal.codeFreqBasis - codeNco(svindex);
         codeFreq(svindex) = signal.codeFreqBasis + codeNco(svindex);
         
         % PLL discriminator
@@ -322,22 +323,14 @@ for msIndex = 1: datalength/pdi % Note that for pdi > 1ms, the index is still de
             
             transmitTime(svIndex) = codePhaseMeas(svIndex)/signal.codelength/1000 + ... %TckResultCT(prn).codedelay(msIndex)/(signal.Fs/1000) 
                 (index - (sbf.nav1(prn)+eph(prn).sfb(1)*20))/1000 + ...
-                eph(prn).TOW(1); 
-%              transmitTime(svIndex) = codePhaseMeas(svIndex)/signal.codelength/1000 + ... %TckResultCT(prn).codedelay(msIndex)/(signal.Fs/1000) 
-%                  (index - (sbf.nav1(prn)))/1000 + ...
-%                  eph(prn).TOW(1);
+                eph(prn).TOW(1);
         end
       
         % At first time of fix, local time is initialized by transmitTime and
         % settings.startOffset
         if (localTime == inf)
             maxTime   = max(transmitTime);
-            i = 1;
-            while abs(maxTime) > 1.1*abs(mean(transmitTime))
-                transTimeSort = sort(transmitTime,'descend');
-                maxTime = transTimeSort(i+1)
-            end
-            localTime = maxTime + 70/1000; % 68 ms is an assumed travel time
+            localTime = maxTime + 75/1000; % 68 ms is an assumed travel time
         end
         pseudorange = (ones(1,svlength).*localTime - transmitTime)*cmn.cSpeed;
         
@@ -349,14 +342,14 @@ for msIndex = 1: datalength/pdi % Note that for pdi > 1ms, the index is still de
             prn = sv(svindex);
             
             tot_est_pos(svindex) = transmitTime(svindex);% ...
-                                                 %+ (1/cmn.cSpeed)*sv_clk(prn);
+%                                                 + (1/cmn.cSpeed)*sv_clk(prn);
             
             % find the sv pos in ECEF at the time of transmision
             [svxyz(svindex,:), sv_vel(svindex,:), sv_clk(prn), sv_clk_vel(prn), grpdel] = ...
                 svPosVel(prn,eph,tot_est_pos(svindex),eph_idx(svindex));
             
             % C/A-code pseudorange corrected for satellite clock (in meters) and Tgd(in sec)
-            prvec(svindex)      = pseudorange(svindex) + sv_clk(prn) - grpdel*cmn.cSpeed;% -sv_clk(prn);
+            prvec(svindex)      = pseudorange(svindex) + sv_clk(prn) - grpdel*cmn.cSpeed;% -sv_clk(prn)?
             
             % Adjust satellite position coordinates for earth rotation correction
             svxyzr(svindex,:)   = erotcorr(svxyz(svindex,:),prvec(svindex));
@@ -372,41 +365,22 @@ for msIndex = 1: datalength/pdi % Note that for pdi > 1ms, the index is still de
                 el(svindex)     = el_rad(svindex)*180/pi;
                 temp            = xyz2llh(estusr(1:3));
                 user_ll         = [temp(1:2).*180/pi temp(3)];
-                if solu.flag_spaceUsr == 0
-                    ionodel(svindex)        = ionocorr(tot_est_pos(svindex),svxyzr(svindex,:), estusr(1:3));
-                    tropodel_unb3(svindex)  = abs(trop_UNB3(cmn.doy,user_ll(1),user_ll(3),el(svindex))); %%%%%%%%%%%%%%%%%%%%%%%%% Turn off for spaceborne RCV
-                else
-                    ionodel(svindex)        = 0; %%%%%%%%%%%%%%%%%%%%%%%%% zero for spaceborne RCV
-                    tropodel_unb3(svindex)  = 0; %%%%%%%%%%%%%%%%%%%%%%%%% zero for spaceborne RCV
-                end
+                ionodel(svindex)        = ionocorr(tot_est_pos(svindex),svxyzr(svindex,:), estusr(1:3));
+                tropodel_unb3(svindex)  = abs(trop_UNB3(cmn.doy,user_ll(1),user_ll(3),el(svindex)));
                 counter_corr(svindex)   = 0;
             end
             
             prvec(svindex) = prvec(svindex) - ionodel(svindex) - tropodel_unb3(svindex); % sign of iono. and trop. error?
-           % prvec(svindex) = prvec(svindex) - tropodel_unb3(svindex);
         end % for svindex=1:svlength
         
         
         %% Record Ppseudorange measurement 
-        navSolutionsWLS.rawPseudorange(posIndex,:) = pseudorange ;
-        navSolutionsWLS.prvec(posIndex,:) = prvec;
+        navSolutionsWLS.rawPseudorange(posIndex,:) = pseudorange ;        
         
         %% Position cal using LS method
         [estusr_wls, dop]       = olspos(prvec,svxyzr,estusr_wls); % ordinary least square
-        %[estusr_wls, dop]       = olspos(pr_CT_truth(posIndex,:),svxyzr,estusr_wls); % ordinary least square
         [VR, dtRV, ~]     = ...
-            LS_SA_code_Vel_xubing(estusr_wls(1:3)', svxyzr, sv_vel, (carrFreq'), 0.190293672798365, sv_clk_vel(sv));%-signal.IF
-
-        % load('FGI_sv.mat')
-        % FGI_sv_pos = reshape([sat.gpsl1.channel.Pos],3,[]).';
-        % FGI_sv_pos(end-1,:) = [];
-        % FGI_sv_vel = reshape([sat.gpsl1.channel.Vel],4,[]).';
-        % FGI_sv_vel(end-1,:) = [];
-        % FGI_sv_vel(:,end) = [];
-        % FGI_doppler = reshape([obs.gpsl1.channel.doppler],1,[]).';
-        % FGI_doppler(end-1) = [];
-        % [VR, dtRV, ~]     = ...
-        %     LS_SA_code_Vel_xubing(solu.iniPos', FGI_sv_pos, FGI_sv_vel, carrFreq'-signal.IF, 0.190293672798365, sv_clk_vel(sv));%-signal.IF
+            LS_SA_code(estusr_wls(1:3)', svxyzr, sv_vel, carrFreq', 0.190293672798365, sv_clk_vel(sv));
         
         usrenu_wls(posIndex,:)   = xyz2enu(estusr_wls(1:3),cnslxyz);
         usr_clk_wls             = estusr_wls(4);
@@ -434,15 +408,14 @@ for msIndex = 1: datalength/pdi % Note that for pdi > 1ms, the index is still de
         navSolutionsWLS.DOP(posIndex,:)       = dop;
         navSolutionsWLS.satEA(posIndex,:)      = el;
         navSolutionsWLS.satAZ(posIndex,:)      = az;
-        navSolutionsWLS.svxyzr(:,:,posIndex)     = svxyzr;
+        
         navSolutionsWLS.codePhaseMeas(posIndex,:) = codePhaseMeas;
         %     navSolutionsWLS.test(msIndex,:)      = test;
         
         
         %=== Correct local time by clock error estimation =================
+        localTime = localTime - navSolutionsWLS.clkBias(posIndex)/cmn.cSpeed;
         navSolutionsWLS.localTime(posIndex,:) = localTime;
-        localTime = localTime - navSolutionsWLS.clkBias(posIndex)/cmn.cSpeed;%+0.02;
-        %navSolutionsWLS.localTime(posIndex,:) = localTime;
         
         %=== Update local time by measurement  step  ====================================
         localTime = localTime + measSampleStep/signal.Fs;
@@ -452,16 +425,10 @@ for msIndex = 1: datalength/pdi % Note that for pdi > 1ms, the index is still de
        end
         navSolutionsCT = navSolutionsWLS;
         
-        if mod(posIndex, 1) == 0 %%%%%%%%%%%%%%%%%%%%%%%
-            fprintf('WLS: index = %4d; localTime: %f;  E = %f N = %f U = %f  VE = %f VN = %f VU = %f B = %f D = %f\n\n', ...
+        if mod(posIndex, 1) == 0
+            fprintf('WLS: index = %4d; localTime: %f;  X = %f Y = %f Z = %f  VE = %f VN = %f VU = %f B = %f D = %f\n\n', ...
                 posIndex, localTime, usrenu_wls(posIndex,1),usrenu_wls(posIndex,2),usrenu_wls(posIndex,3),usr_velENU(posIndex,1), usr_velENU(posIndex,2), usr_velENU(posIndex,3), usr_clk_wls, dtRV);
         end
-
-        % if mod(posIndex, 1) == 0 %%%%%%%%%%%%%%%%%%%%%%% Test for spaceborne RCV, positions ECEF replaced llh
-        %     fprintf('WLS: index = %4d; localTime: %f;  E = %f N = %f U = %f  VE = %f VN = %f VU = %f B = %f D = %f\n\n', ...
-        %         posIndex, localTime, estusr_wls(1),estusr_wls(2),estusr_wls(3),usr_velENU(posIndex,1), usr_velENU(posIndex,2), usr_velENU(posIndex,3), usr_clk_wls, dtRV);
-        % end
-
     end % end for positioning at current measurement epoch
     
 end % end for msIndex
