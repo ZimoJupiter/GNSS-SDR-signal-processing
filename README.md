@@ -1,4 +1,4 @@
-# AAE6102-Assignment-1
+# GNSS Software-Defined Receiver (SDR) signal processing
 A technical report for GNSS Software-Defined Receiver (SDR) signal processing. An open-source SDR program is used in this project [1], which can be found at https://www.ngs.noaa.gov/gps-toolbox/GPS_VT_SDR.htm.
 
 ## Usage
