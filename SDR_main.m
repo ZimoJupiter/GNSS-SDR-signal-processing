@@ -77,14 +77,20 @@ if cmn.vtEnable == 1
     load(['tckRstCT_1ms_',file.fileName,'.mat']);%,'_Grid'
     load(['navSolCT_1ms_',file.fileName,'.mat']); 
      
+    %[TckResultVT, navSolutionsVT] = ...
+    %              trackingVT_POS_WLS(file,signal,track,cmn,solu,Acquired,cnslxyz,eph,sbf,TckResult_Eph, TckResultCT_pos,navSolutionsCT);
+
     [TckResultVT, navSolutionsVT] = ...
-                  trackingVT_POS(file,signal,track,cmn,solu,Acquired,cnslxyz,eph,sbf,TckResult_Eph, TckResultCT_pos,navSolutionsCT);
+                  trackingVT_POS_KF(file,signal,track,cmn,solu,Acquired,cnslxyz,eph,sbf,TckResult_Eph, TckResultCT_pos,navSolutionsCT);
 else 
     load(['nAcquired_',file.fileName,'_',num2str(file.skip),'.mat']); % load acquired satellites that can be used to calculate position  
     Acquired = nAcquired;
     
+    %[TckResultCT_pos, navSolutionsCT] = ...
+    %       trackingCT_POS_WLS(file,signal,track,cmn,Acquired,TckResult_Eph, cnslxyz,eph,sbf,solu); %trackingCT_POS_multiCorr_1ms
+
     [TckResultCT_pos, navSolutionsCT] = ...
-           trackingCT_POS(file,signal,track,cmn,Acquired,TckResult_Eph, cnslxyz,eph,sbf,solu); %trackingCT_POS_multiCorr_1ms
+           trackingCT_POS_KF(file,signal,track,cmn,Acquired,TckResult_Eph, -cnslxyz,eph,sbf,solu); %trackingCT_POS_multiCorr_1ms
                  
 end 
 
