@@ -27,6 +27,8 @@ The initial input parameters, including file names and paths, can be modified in
 
 To generate visualizations in the  `Figures` folder, simply run the `PostProcessing.m` script in the root directory.
 
+A set of example output data can be found at https://www.dropbox.com/scl/fo/gtarmugbu1ip1i6dsg12e/AAdGGclnPwSJa_l7gATUOQ8?rlkey=ncp24dxp6w84sskmg70mjiqfk&st=wf67ri6g&dl=0. 
+
 
 
 
@@ -76,7 +78,9 @@ They correspond to time delays of -0.5, 0, and 0.5 chips, respectively. For both
 
 ### Navigation Data Decoding
 
-Navigation data decoding aims to obtain pseudorange, GPS time, ephemeris, almanac, and klobuchar information, which are included in the output file named `eph_***_***.mat`. Again, use satellite 3 for both cases as an example; some decoding results are listed below.
+Navigation data decoding aims to obtain pseudorange, GPS time, ephemeris, almanac, and klobuchar information, which are included in the output file named `eph_***_***.mat`. The example output table has been uploaded to https://www.dropbox.com/scl/fo/gtarmugbu1ip1i6dsg12e/AAdGGclnPwSJa_l7gATUOQ8?rlkey=ncp24dxp6w84sskmg70mjiqfk&st=wf67ri6g&dl=0.
+
+Again, use satellite 3 for both cases as an example; some decoding results are listed below.
 
 | Parameters            | Open sky    | Urban    |
 |-----------------------|-------------|----------|
@@ -114,6 +118,21 @@ Navigation data decoding aims to obtain pseudorange, GPS time, ephemeris, almana
 
 ### Kalman Filter-Based Positioning
 
+![image](https://github.com/ZimoJupiter/AAE6102-Assignment-1/blob/main/Figures/Open%20sky%20latitude_KF.png)
+
+![image](https://github.com/ZimoJupiter/AAE6102-Assignment-1/blob/main/Figures/Opensky%20longitude_KF.png)
+
+![image](https://github.com/ZimoJupiter/AAE6102-Assignment-1/blob/main/Figures/Opensky%20velocity_KF.png)
+
+
+![image](https://github.com/ZimoJupiter/AAE6102-Assignment-1/blob/main/Figures/Urban%20latitude_KF.png)
+
+![image](https://github.com/ZimoJupiter/AAE6102-Assignment-1/blob/main/Figures/Urban%20longitude_KF.png)
+
+![image](https://github.com/ZimoJupiter/AAE6102-Assignment-1/blob/main/Figures/Urban%20velocity_KF.png)
+
+
+![image](https://github.com/ZimoJupiter/AAE6102-Assignment-1/blob/main/Figures/Map_KF.png)
 
 
 
