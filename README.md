@@ -70,7 +70,7 @@ $$P = \sqrt{P_i^2 + P_q^2}$$
 
 $$L = \sqrt{L_i^2 + L_q^2}$$
 
-They correspond to time delays of -0.5, 0, and 0.5 chips, respectively. For both open sky and urban cases, the correlation plots of satellite 3 at four time points are shown below.
+They correspond to time delays of -0.5, -0.25, 0, 0.25, and 0.5 chips, respectively. For both open sky and urban cases, the correlation plots of satellite 3 at four time points are shown below. Both sets of correlation plots are triangular, which indicates that the code replicas and incoming signals are well correlated. For the urban case, the correlation peak difference is relatively larger between the late and early time points, which indicates the presence of multipath or NLOS (non-line-of-sight) influence.
 
 ![image](https://github.com/ZimoJupiter/AAE6102-Assignment-1/blob/main/Figures/correlation_analysis_plotOpensky.png)
 
@@ -98,12 +98,20 @@ Again, use satellite 3 for both cases as an example; some decoding results are l
 
 ### Position and Velocity Estimation (WLS)
 
+In the initialization script, WLS or Kalman filter methods can be switched by changing the  variable `solu.mode`:
+
+```matlab
+%solu.mode  	= 0;    % 0:conventional LS/WLS; 1:conventionalKF; 2:VT
+
+This part presents the results obtained by the WLS method. It can be seen from the figures that for the open sky case, this method shows good convergence for both longitude and latitude and velocity prediction, except the E component.
+
 ![image](https://github.com/ZimoJupiter/AAE6102-Assignment-1/blob/main/Figures/Open%20sky%20latitude.png)
 
 ![image](https://github.com/ZimoJupiter/AAE6102-Assignment-1/blob/main/Figures/Opensky%20longitude.png)
 
 ![image](https://github.com/ZimoJupiter/AAE6102-Assignment-1/blob/main/Figures/Opensky%20velocity.png)
 
+For the urban case prediction, the convergence is also very good, but all the measurements have large fluctuations. It is speculated that this phenomenon is related to the influence of multipaths.
 
 ![image](https://github.com/ZimoJupiter/AAE6102-Assignment-1/blob/main/Figures/Urban%20latitude.png)
 
@@ -111,12 +119,15 @@ Again, use satellite 3 for both cases as an example; some decoding results are l
 
 ![image](https://github.com/ZimoJupiter/AAE6102-Assignment-1/blob/main/Figures/Urban%20velocity.png)
 
+The calculated results of the location on the map are very close to the actual location. Compared with the open sky case, the urban case has a larger distribution of predicted points. This phenomenon is consistent with expectations because cities have more complex environments and signal conditions.
 
 ![image](https://github.com/ZimoJupiter/AAE6102-Assignment-1/blob/main/Figures/Map.png)
 
 
 
 ### Kalman Filter-Based Positioning
+
+The Kalman Filter-Based method performs well in urban prediction but has poor robustness in open sky prediction. The following figures all show the predicted data in the first 5 seconds. It can be observed from the map that the predicted points and the actual points are also highly coincident.
 
 ![image](https://github.com/ZimoJupiter/AAE6102-Assignment-1/blob/main/Figures/Open%20sky%20latitude_KF.png)
 
