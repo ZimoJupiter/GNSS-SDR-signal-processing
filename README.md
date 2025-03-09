@@ -118,5 +118,11 @@ Navigation data decoding aims to obtain pseudorange, GPS time, ephemeris, almana
 
 
 
+
+
+
+## Acknoledgement
+I appreciate the excellent work of open source code authors Dr Bing Xu and Dr Li-Ta Hsu. I am also grateful for the help from @SambaZhou in understanding this algorithm. Additionally, GPT-4o has also played an indispensable role in this project. It's a great privilege to use such a fantastic product in this remarkable era.
+
 ## References
 [1] B. Xu and L.-T. Hsu, ‘Open-source MATLAB code for GPS vector tracking on a software-defined receiver’, GPS Solut, vol. 23, no. 2, p. 46, Apr. 2019, doi: 10.1007/s10291-019-0839-x.
