@@ -86,11 +86,13 @@ else
     load(['nAcquired_',file.fileName,'_',num2str(file.skip),'.mat']); % load acquired satellites that can be used to calculate position  
     Acquired = nAcquired;
     
-    %[TckResultCT_pos, navSolutionsCT] = ...
-    %       trackingCT_POS_WLS(file,signal,track,cmn,Acquired,TckResult_Eph, cnslxyz,eph,sbf,solu); %trackingCT_POS_multiCorr_1ms
-
-    [TckResultCT_pos, navSolutionsCT] = ...
-           trackingCT_POS_KF(file,signal,track,cmn,Acquired,TckResult_Eph, -cnslxyz,eph,sbf,solu); %trackingCT_POS_multiCorr_1ms
+    if solu.mode == 0
+        [TckResultCT_pos, navSolutionsCT] = ...
+            trackingCT_POS_WLS(file,signal,track,cmn,Acquired,TckResult_Eph, cnslxyz,eph,sbf,solu); %trackingCT_POS_multiCorr_1ms
+    elseif solu.mode == 1
+        [TckResultCT_pos, navSolutionsCT] = ...
+            trackingCT_POS_KF(file,signal,track,cmn,Acquired,TckResult_Eph, cnslxyz,eph,sbf,solu); %trackingCT_POS_multiCorr_1ms
+    end
                  
 end 
 

@@ -56,7 +56,7 @@ track.DLLGain            	= 0.1;	% OriginalL: 0.1
 track.PLLBW              	= 15;
 track.PLLDamp             	= 0.7;
 track.PLLGain              	= 0.25; 	
-track.msToProcessCT       	= 90000; % unit: ms 90000
+track.msToProcessCT       	= 90000; % unit: ms 40000
 track.msPosCT               = 90000; % unit: ms
 track.msToProcessVT         = 5000; %track.msPosCT - file.skiptimeVT; %
 track.pdi                   = 1; %
@@ -78,7 +78,7 @@ solu.iniCoeffBeta_vel = 0.5; % Velocity weighting of DM in VTL+DM integration
 % solu.iniPos	= [2599519.854832	1497566.305129	6207014.393900]; % Ground truth location at HD_GPSL1 (FULL) localTime 259200.0
 solu.GPSWN = 1046; % Ground truth GPS week number
 solu.GPSdSOW = 264894.0; % Ground truth localTime (seconds of week GPST)
-solu.iniPos = [22.328444770087565, 114.1713630049711 0]; % Ground truth location at HD_GPSL1 (FULL) localTime 264894.0
+solu.iniPos = [22.328444770087565 * pi/180, 114.1713630049711 * pi/180 0]; % Ground truth location at HD_GPSL1 (FULL) localTime 264894.0
 solu.iniVel = [0 0 0];% Ground truth velocity at HD_GPSL1 (FULL) localTime 264894.0
 %% Dynamic model parameters
 dyna.updInterval = 0.2; % unit: s
