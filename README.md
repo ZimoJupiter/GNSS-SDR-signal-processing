@@ -1,5 +1,5 @@
 # GNSS Software-Defined Receiver (SDR) signal processing
-A technical report for GNSS Software-Defined Receiver (SDR) signal processing. An open-source SDR program is used in this project [1], which can be found at https://www.ngs.noaa.gov/gps-toolbox/GPS_VT_SDR.htm.
+A technical report for GNSS Software-Defined Receiver (SDR) signal processing. An [open-source SDR program](https://www.ngs.noaa.gov/gps-toolbox/GPS_VT_SDR.htm) is used in this project [1].
 
 ## Usage
 
@@ -27,7 +27,9 @@ The initial input parameters, including file names and paths, can be modified in
 
 To generate visualizations in the  `Figures` folder, simply run the `PostProcessing.m` script in the root directory.
 
-A set of example output data can be found at https://www.dropbox.com/scl/fo/gtarmugbu1ip1i6dsg12e/AAdGGclnPwSJa_l7gATUOQ8?rlkey=ncp24dxp6w84sskmg70mjiqfk&st=wf67ri6g&dl=0. 
+A set of example output data can be found at 
+
+`https://www.dropbox.com/scl/fo/gtarmugbu1ip1i6dsg12e/AAdGGclnPwSJa_l7gATUOQ8?rlkey=ncp24dxp6w84sskmg70mjiqfk&st=wf67ri6g&dl=0. `
 
 
 
@@ -78,7 +80,7 @@ They correspond to time delays of -0.5, 0, and 0.5 chips, respectively. For both
 
 ### Navigation Data Decoding
 
-Navigation data decoding aims to obtain pseudorange, GPS time, ephemeris, almanac, and klobuchar information, which are included in the output file named `eph_***_***.mat`. The example output table has been uploaded to https://www.dropbox.com/scl/fo/gtarmugbu1ip1i6dsg12e/AAdGGclnPwSJa_l7gATUOQ8?rlkey=ncp24dxp6w84sskmg70mjiqfk&st=wf67ri6g&dl=0.
+Navigation data decoding aims to obtain pseudorange, GPS time, ephemeris, almanac, and klobuchar information, which are included in the output file named [eph_***_***.mat](https://www.dropbox.com/scl/fo/gtarmugbu1ip1i6dsg12e/AAdGGclnPwSJa_l7gATUOQ8?rlkey=ncp24dxp6w84sskmg70mjiqfk&st=wf67ri6g&dl=0).
 
 Again, use satellite 3 for both cases as an example; some decoding results are listed below.
 
