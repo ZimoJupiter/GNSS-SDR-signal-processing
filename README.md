@@ -98,10 +98,11 @@ Again, use satellite 3 for both cases as an example; some decoding results are l
 
 ### Position and Velocity Estimation (WLS)
 
-In the initialization script, WLS or Kalman filter methods can be switched by changing the  variable `solu.mode`:
+In the initialization script, WLS or Kalman filter methods can be switched by changing the  variable `solu.mode`.
 
-```matlab
-%solu.mode  	= 0;    % 0:conventional LS/WLS; 1:conventionalKF; 2:VT
+- **Switch of positioning methods**:
+  ```matlab
+  %solu.mode  	= 0;    % 0:conventional LS/WLS; 1:conventionalKF; 2:VT
 
 This part presents the results obtained by the WLS method. It can be seen from the figures that for the open sky case, this method shows good convergence for both longitude and latitude and velocity prediction, except the E component.
 
